@@ -1,8 +1,8 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-	ofSetVerticalSync(true);	
-	ofSetFrameRate(60);
+	// ofSetVerticalSync(true);	
+	// ofSetFrameRate(60);
 	fft.setup(16384);
 }
 
@@ -17,7 +17,7 @@ void ofApp::draw() {
 	ofTranslate(16, 16);
 	ofSetColor(255);
 	ofDrawBitmapString("Frequency Domain", 0, 0);
-	plot(fft.getBins(), 128);
+	plot(fft.getBins(), 440);
 	ofPopMatrix();
 	
 	string msg = ofToString((int) ofGetFrameRate()) + " fps";
