@@ -25,16 +25,17 @@ void ofApp::draw() {
 }
 
 void ofApp::plot(vector<float>& buffer, float scale) {
-	ofNoFill();
-	int n = MIN(1024, buffer.size());
-	ofDrawRectangle(0, 0, n, scale);
-	ofPushMatrix();
-	ofTranslate(0, scale);
-	ofScale(1, -scale);
-	ofBeginShape();
-	for (int i = 0; i < n; i++) {
-		ofVertex(i, buffer[i]);
-	}
-	ofEndShape();
-	ofPopMatrix();
+    ofNoFill();
+    int n = buffer.size();
+    float plotWidth = ofGetWidth() - 32; // leave some margin (same as your translate)
+    ofDrawRectangle(0, 0, plotWidth, scale);
+    ofPushMatrix();
+    ofTranslate(0, scale);
+    ofScale(plotWidth / (float)n, -scale);
+    ofBeginShape();
+    for (int i = 0; i < n; i++) {
+        ofVertex(i, buffer[i]);
+    }
+    ofEndShape();
+    ofPopMatrix();
 }
