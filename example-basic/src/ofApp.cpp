@@ -3,7 +3,7 @@
 void ofApp::setup() {
 	ofSetVerticalSync(true);
 	
-	plotHeight = 128;
+	plotHeight = 440;
 	bufferSize = 2048;
 	
 	fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
