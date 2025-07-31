@@ -22,10 +22,5 @@ openFrameworks-Info.plist
 Project.xcconfig
 
 # Codeblocks
-config.make
 *.cbp
 *.workspace
-
-# Linux, etc
-Makefile
-
