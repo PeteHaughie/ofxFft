@@ -50,10 +50,30 @@ vector<float>& ofxEasyFft::getBins() {
 }
 
 void ofxEasyFft::audioReceived(float* input, int bufferSize, int nChannels) {
-	if(audioRaw.size() > bufferSize) {
+	if(bufferSize <= 0 || input == nullptr) {
+		ofLogWarning("ofxEasyFft") << "audioReceived called with empty input or zero bufferSize: " << bufferSize;
+		return;
+	}
+
+	// Ensure internal buffers are at least as large as incoming buffer
+	if((int)audioRaw.size() < bufferSize) {
+		ofLogWarning("ofxEasyFft") << "audioRaw size (" << audioRaw.size() << ") < bufferSize (" << bufferSize << "), resizing internal buffers.";
+		audioRaw.resize(bufferSize);
+		audioBack.resize(bufferSize);
+		audioMiddle.resize(bufferSize);
+		audioFront.resize(bufferSize);
+	}
+
+	if(audioRaw.size() > (size_t)bufferSize) {
+		// shift old data left by bufferSize
 		copy(audioRaw.begin() + bufferSize, audioRaw.end(), audioRaw.begin()); // shift old
 	}
+
+	// now push new data at the end (guaranteed space)
 	copy(input, input + bufferSize, audioRaw.end() - bufferSize); // push new
+
+	// copy to back and normalize
+	if(audioBack.size() != audioRaw.size()) audioBack.resize(audioRaw.size());
 	copy(audioRaw.begin(), audioRaw.end(), audioBack.begin());
 	normalize(audioBack);
 
